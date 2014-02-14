@@ -1,0 +1,160 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var util = require('util');
+
+var HkStockHoldings = require('..');
+
+require('../lib/date-ext.js');
+var today = new Date();
+today.setHours(0, 0, 0);
+
+var argv = require("nomnom")
+  .script(require('../package.json').name)
+  .option('code', {
+    position: 0,
+    help: "Stock code(s) for analysis",
+    type: "string",
+    list: true,
+    required: true
+  })
+  .option('id', {
+    abbr: 'i',
+    help: "Filter participant by id"
+  })
+  .option('name', {
+    abbr: 'n',
+    help: "Filter participant by name"
+  })
+  .option('time', {
+    abbr: 't',
+    type: "string",
+    required: true,
+    default: '1d',
+    help: "Period for analysis, e.g.: '1d', '2w', '3m', '1y'"
+  })
+  .option('startDate', {
+    abbr: 's',
+    help: "Start date of period"
+  })
+  .option('endDate', {
+    abbr: 'e',
+    required: true,
+    default: today.toISODateString(),
+    help: "End date of period"
+  })
+  .option('numParti', {
+    abbr: 'p',
+    default: 10,
+    help: "Print # of participants"
+  })
+  .option('json', {
+    abbr: 'j',
+    flag: true,
+    default: false,
+    help: "Dump result as JSON"
+  })
+  .option('dumpBody', {
+    abbr: 'B',
+    flag: true,
+    default: false,
+    help: "Print request body"
+  })
+  .option('verbose', {
+    abbr: 'v',
+    flag: true,
+    default: false,
+    help: "Print processing logs"
+  })
+  .help("Author: ".bold +
+    "leesei@gmail.com".underline + "       "+
+    "Licence: ".bold + "MIT\n")
+  .parse();
+
+function parsePeriod(argv) {
+  var ret = {};
+  var found = argv.time.match(/(\d+)([dwmy])/i);
+  if (!found) {
+    return null;
+  }
+
+  ret.endDate = new Date(argv.endDate);
+  if (argv.startDate) {
+    ret.startDate = new Date(argv.startDate);
+  }
+  else {
+    // set startDate using time string
+    // console.log(found);
+    var modifier;
+    switch (found[2]) {
+    case 'd':
+      modifier = 1;
+      break;
+    case 'w':
+      modifier = 7;
+      break;
+    case 'm':
+      modifier = 30;
+      break;
+    case 'y':
+      modifier = 360;
+      break;
+    }
+    ret.startDate =
+      ret.endDate.getPrevDay(found[1]*modifier-1);
+  }
+
+  delete argv.startDate;
+  delete argv.endDate;
+  delete argv.time;
+  return ret;
+}
+
+// console.log(argv);
+var timePeriod = parsePeriod(argv);
+if (!timePeriod) {
+  console.error('Invalid time specified');
+  process.exit(-1);
+}
+
+var opts = util._extend({}, argv);
+opts.timePeriod = timePeriod;
+if (argv.verbose) {
+  console.log(opts);
+}
+
+// callback function, parameters depends on scraper
+callback = function (err, results) {
+  if (err) {
+    console.error("scrape error:", err);
+    return;
+  }
+
+  if (argv.json) {
+    var f = fs.openSync(results.code+'.json', 'w');
+    fs.writeSync(f, JSON.stringify(results, null, 2));
+    return;
+  }
+
+  function printPartis(participant, i) {
+    // ends when the participant is insignificant
+    if (participant.percent === 0)
+      return true;
+    console.info('%d: %s', i+1, JSON.stringify(participant));
+  }
+
+  var displaySet = [];
+  for (var date in results.holdings) {
+    // console.log(results.holdings[date]);
+    displaySet = results.holdings[date].slice(0, argv.numParti);
+    console.info('%s(%s) @ %s (showing %d/%d participants)',
+      results.code, results.name, date,
+      displaySet.length, results.holdings[date].length);
+
+    results.holdings[date].some(printPartis);
+
+    console.info();
+  }
+};
+
+var stockHoldings = HkStockHoldings(opts, callback);

@@ -1,0 +1,32 @@
+{
+  "name": "hkstock-holdings-data",
+  "version": "0.1.0",
+  "description": "Scrape HKExnews share holdings page and output JSON data",
+  "author": {
+    "name": "KY LEE",
+    "email": "leesei@gmail.com",
+    "url": "http://leesei.github.io/"
+  },
+  "keywords": [
+    "scrape",
+    "stock",
+    "hkex",
+    "json"
+  ],
+  "bin": {
+    "hkstock-holdings": "bin/hkstock-holdings"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/leesei/node-hkstock-holdings-data"
+  },
+  "bugs": {
+    "url": "http://github.com/leesei/node-hkstock-holdings-data/issues"
+  },
+  "dependencies": {
+    "async": "*",
+    "nomnom": "*",
+    "scrapebp": "*"
+  },
+  "license": "MIT"
+}
