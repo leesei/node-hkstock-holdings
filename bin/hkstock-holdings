@@ -45,7 +45,7 @@ var argv = require("nomnom")
   })
   .option('numParti', {
     abbr: 'p',
-    default: 10,
+    default: 300,
     help: "Print # of participants"
   })
   .option('json', {
@@ -137,9 +137,6 @@ callback = function (err, results) {
   }
 
   function printPartis(participant, i) {
-    // ends when the participant is insignificant
-    if (participant.percent === 0)
-      return true;
     console.info('%d: %s', i+1, JSON.stringify(participant));
   }
 
