@@ -5,7 +5,6 @@ var util = require('util');
 
 var HkStockHoldings = require('..');
 
-require('../lib/date-ext.js');
 var today = new Date();
 today.setHours(0, 0, 0);
 
@@ -42,11 +41,6 @@ var argv = require("nomnom")
     required: true,
     default: today.toISODateString(),
     help: "End date of period"
-  })
-  .option('numParti', {
-    abbr: 'p',
-    default: 300,
-    help: "Print # of participants"
   })
   .option('json', {
     abbr: 'j',
@@ -136,22 +130,15 @@ callback = function (err, results) {
     return;
   }
 
-  function printPartis(participant, i) {
-    console.info('%d: %s', i+1, JSON.stringify(participant));
-  }
-
-  var displaySet = [];
-  for (var date in results.holdings) {
-    // console.log(results.holdings[date]);
-    displaySet = results.holdings[date].slice(0, argv.numParti);
-    console.info('%s(%s) @ %s (showing %d/%d participants)',
-      results.code, results.name, date,
-      displaySet.length, results.holdings[date].length);
-
-    results.holdings[date].some(printPartis);
-
+  results.series.map(function (record, i) {
+    console.info("=======  [%d] %s (%s) =======", i, record.name, record.id);
+    results.period.map(function (date, index) {
+      console.info("%s: %d shares (%d%%)", date,
+        record.shares[index], record.percent[index]);
+    });
+    console.info("   Average: %d shares (%d%%)", record.sharesAvg, record.percentAvg);
     console.info();
-  }
+  });
 };
 
 var stockHoldings = HkStockHoldings(opts, callback);

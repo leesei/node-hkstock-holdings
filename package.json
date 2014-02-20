@@ -1,5 +1,5 @@
 {
-  "name": "hkstock-holdings-data",
+  "name": "hkstock-holdings",
   "version": "0.1.0",
   "description": "Scrape HKExnews share holdings page and output JSON data",
   "author": {
@@ -18,15 +18,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/leesei/node-hkstock-holdings-data"
+    "url": "http://github.com/leesei/node-hkstock-holdings"
   },
   "bugs": {
-    "url": "http://github.com/leesei/node-hkstock-holdings-data/issues"
+    "url": "http://github.com/leesei/node-hkstock-holdings/issues"
   },
   "dependencies": {
     "async": "*",
     "nomnom": "*",
-    "scrapebp": "*"
+    "scrapebp": "*",
+    "lodash": "*"
   },
   "license": "MIT"
 }
