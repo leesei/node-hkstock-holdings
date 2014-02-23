@@ -1,6 +1,6 @@
 # node-hkstock-holdings
 
-Scrape HKExnews share holdings page and output JSON data
+Scrape [HKExnews](hkexnews.hk/sdw/search/search_sdw_c.asp) share holdings page and output JSON data
 
 > Note: `Date` object prototype will be extended by this package
 
@@ -28,13 +28,13 @@ var _result = {
     period,
     series  // array with each element corresponding to data of one
             // parti over the period, filling missing records and have
-            // average holding computed, suitable for plotting
+            // some statistics computed, suitable for plotting
 };
 ```
 
 ## Performance
 
-> `user` field can be taken as the time spent by this (and dependant) module
+> `user` field can be taken as the time spent by this (and under-lying) modules
 
 ### 20140211
 
@@ -54,4 +54,20 @@ user    0m2.360s
 sys     0m0.196s
 ```
 
-### 20140220
+### 20140223
+
+```
+time ./bin/hkstock-holdings 1 -t 1m -e 2014-01-31 -j
+
+real    0m7.342s
+user    0m2.188s
+sys     0m0.164s
+```
+
+```
+time ./bin/hkstock-holdings 700 -t 1m -e 2014-01-31 -j
+
+real    0m5.460s
+user    0m2.124s
+sys    0m0.184s
+```
