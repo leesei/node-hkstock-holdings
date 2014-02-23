@@ -1,6 +1,6 @@
 {
   "name": "hkstock-holdings",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scrape HKExnews share holdings page and output JSON data",
   "author": {
     "name": "KY LEE",
