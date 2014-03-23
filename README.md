@@ -1,6 +1,10 @@
 # node-hkstock-holdings
 
-Scrape [HKExnews](hkexnews.hk/sdw/search/search_sdw_c.asp) share holdings page and output JSON data
+Scrape [HKExnews](hkexnews.hk/sdw/search/search_sdw_c.asp) share holdings page and output JSON data.
+
+HKExnews will return data for the previous day if the day requested is a public holiday.
+
+If the period is greater than `30` calender days, weekly data for each Friday within the period will be used.
 
 > Note: `Date` object prototype will be extended by this package
 
@@ -20,7 +24,7 @@ See [bin/hkstock-holdings](bin/hkstock-holdings).
 var _result = {
     code,  // code of the stock
     name,  // name of the stock
-    // user input for computing `period`
+    // period specified by user
     startDate,
     endDate,
     // actual dates where data is retrieved
