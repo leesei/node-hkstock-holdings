@@ -18,6 +18,11 @@ npm install hkstock-holdings
 
 See [bin/hkstock-holdings](bin/hkstock-holdings).
 
+```sh
+# debug
+bin/hkstock-holdings -v -B 1
+```
+
 ## Data Returned
 
 ```javascript
@@ -42,7 +47,7 @@ var _result = {
 
 ### 20140211
 
-```
+```sh
 time ./bin/hkstock-holdings 1 -t 1m -e 2014-01-31 -j
 
 real    0m8.275s
@@ -50,7 +55,7 @@ user    0m2.512s
 sys     0m0.288s
 ```
 
-```
+```sh
 time ./bin/hkstock-holdings 700 -t 1m -e 2014-01-31 -j
 
 real    0m8.108s
@@ -60,7 +65,7 @@ sys     0m0.196s
 
 ### 20140223
 
-```
+```sh
 time ./bin/hkstock-holdings 1 -t 1m -e 2014-01-31 -j
 
 real    0m7.342s
@@ -68,7 +73,7 @@ user    0m2.188s
 sys     0m0.164s
 ```
 
-```
+```sh
 time ./bin/hkstock-holdings 700 -t 1m -e 2014-01-31 -j
 
 real    0m5.460s
