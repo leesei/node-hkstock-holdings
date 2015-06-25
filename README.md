@@ -1,6 +1,6 @@
 # node-hkstock-holdings
 
-Scrape [HKExnews](hkexnews.hk/sdw/search/search_sdw_c.asp) share holdings page and output JSON data.
+Scrape [HKExnews](http://www.hkexnews.hk/sdw/search/search_sdw_c.asp) share holdings page and output JSON data.
 
 HKExnews will return data for the previous day if the day requested is a public holiday.
 
@@ -19,8 +19,7 @@ npm install hkstock-holdings
 See [bin/hkstock-holdings](bin/hkstock-holdings).
 
 ```sh
-# debug
-bin/hkstock-holdings -v -B 1
+bin/hkstock-holdings 5 -j
 ```
 
 ## Data Returned
@@ -33,12 +32,24 @@ var _result = {
     startDate,
     endDate,
     // actual dates where data is retrieved
-    // this is a subset of the input peroid (minus public holidays)
+    // this is a subset of the input period (minus public holidays)
     period,
     series  // array with each element corresponding to data of one
             // parti over the period, filling missing records and have
             // some statistics computed, suitable for plotting
 };
+```
+
+## Debug
+
+Following `needle`, `hkstock-holdings` uses [visionmedia/debug](https://github.com/visionmedia/debug) to enable debug message at runtime.
+It defines two scopes: `stockholding:main` and `stockholding:scraper`.
+Also check the comments in [lib/scraper.js](lib/scraper.js) for the expected content of DOM elements.
+
+```sh
+DEBUG=stockholding:main,stockholding:scraper bin/hkstock-holdings -vB 5 -j
+# adding scrapebp to the mix
+DEBUG=stockholding:main,stockholding:scraper,scrapebp bin/hkstock-holdings -vB 5 -j
 ```
 
 ## Performance
