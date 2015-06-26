@@ -19,7 +19,7 @@ npm install hkstock-holdings
 See [bin/hkstock-holdings](bin/hkstock-holdings).
 
 ```sh
-bin/hkstock-holdings 5 -j
+bin/hkstock-holdings -t 1w 5 -j
 ```
 
 ## Data Returned

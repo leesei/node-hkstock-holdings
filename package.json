@@ -1,6 +1,6 @@
 {
   "name": "hkstock-holdings",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Scrape HKExnews share holdings page and output JSON data",
   "author": {
     "name": "KY LEE",
@@ -26,7 +26,7 @@
   "dependencies": {
     "async": "*",
     "nomnom": "*",
-    "scrapebp": "*",
+    "scrapebp": "leesei/node-scrapebp#iconv-hack-fix",
     "lodash": "*"
   },
   "license": "MIT"
